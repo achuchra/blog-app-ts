@@ -1,13 +1,30 @@
-export const BASE_URL = `/api`;
-export const endpoints = {
-  GET_CURRENT: `${BASE_URL}/user/current`,
-  GET_ARTICLES: `${BASE_URL}/articles`,
-  GET_ARTICLE: `${BASE_URL}/articles/`,
-  ADD_ARTICLE: `${BASE_URL}/articles`,
-  UPDATE_ARTICLE: `${BASE_URL}/articles/`,
-  DELETE_ARTICLE: `${BASE_URL}/articles/`,
-  USER_LOGIN: `${BASE_URL}/user/login`,
-  USER_UPDATE: `${BASE_URL}/user/update/`,
-  USER_LOGOUT: `${BASE_URL}/user/logout`,
-  USER_REGISTER: `${BASE_URL}/user/register`,
-};
+export enum ENDPOINTS {
+  GET_CURRENT = '/api/user/current',
+  GET_ARTICLES = '/api/articles',
+  GET_ARTICLE = '/api/articles/',
+  ADD_ARTICLE = '/api/articles',
+  UPDATE_ARTICLE = '/api/articles/',
+  DELETE_ARTICLE = '/api/articles/',
+  USER_LOGIN = '/api/user/login',
+  USER_UPDATE = '/api/user/update/',
+  USER_LOGOUT = '/api/user/logout',
+  USER_REGISTER = '/api/user/register',
+}
+
+//const with type Values with one of the values from ENDPOINTS properties
+
+// export const ENDPOINTS = {
+//   GET_CURRENT: '/api/user/current',
+//   GET_ARTICLES: '/api/articles',
+//   GET_ARTICLE: '/api/articles/',
+//   ADD_ARTICLE: '/api/articles',
+//   UPDATE_ARTICLE: '/api/articles/',
+//   DELETE_ARTICLE: '/api/articles/',
+//   USER_LOGIN: '/api/user/login',
+//   USER_UPDATE: '/api/user/update/',
+//   USER_LOGOUT: '/api/user/logout',
+//   USER_REGISTER: '/api/user/register',
+// } as const;
+
+// type Keys = keyof typeof ENDPOINTS;
+// type Values = typeof ENDPOINTS[Keys];

@@ -8,9 +8,18 @@ interface IArticle {
   icon?: string;
 }
 
-type ArticlesState = {
-  articles: IArticle[] | any;
-};
+interface IFetchedArticles {
+  docs: array | IArticle[];
+  totalDocs: number | null;
+  limit: number | null;
+  totalPages?: number;
+  page?: number;
+  pagingCounter?: number;
+  hesPrevPage?: boolean;
+  hasNextPage?: boolean;
+  prevPage?: number | null;
+  nextPage?: number | null;
+}
 
 type ArticleAction = {
   type: string;
