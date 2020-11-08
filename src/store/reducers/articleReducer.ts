@@ -1,21 +1,23 @@
 import * as actionTypes from '../actionTypes';
 
-const initialState: IFetchedArticles = {
-  docs: [],
-  totalDocs: null,
-  limit: null,
+const initialState = {
+  articles: null,
+  fetchingArticles: false,
 };
 
-export const articleReducer = (state = initialState, action: ArticleAction): IFetchedArticles => {
+export const articleReducer = (state: IState = initialState, action: TAction): IState => {
   switch (action.type) {
     case actionTypes.GET_ARTICLES:
       return {
         ...state,
-        ...action.payload,
+        articles: action.payload,
       };
-      break;
+    case actionTypes.FETCHING_ARTICLES:
+      return {
+        ...state,
+        fetchingArticles: action.payload,
+      };
     default:
-      return state;
+      return { ...state };
   }
-  return state;
 };

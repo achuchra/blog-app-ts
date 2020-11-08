@@ -43,10 +43,3 @@ interface IFetchedArticles {
   prevPage?: number | null;
   nextPage?: number | null;
 }
-
-type ArticleAction = {
-  type: string;
-  payload: IArticle;
-};
-
-type DispatchType = (args: ArticleAction) => IFetchedArticles;

@@ -9,7 +9,7 @@ interface Http {
   deleteArticle(id: string): Promise<IDeletedArticle, PossibleError>;
   userLogin(body: IUserLoginBody): Promise<IFetchedUser, PossibleError>;
   userUpdate(id: string, body: IUserUpdateBody): Promise<IFetchedUser, PossibleError>;
-  userLogout(): Promise<{}, PossibleError>;
+  userLogout(): Promise<Record<string, unknown>, PossibleError>;
   userRegister(body: IUserRegisterBody): Promise<IFetchedUser, PossibleError>;
 }
 

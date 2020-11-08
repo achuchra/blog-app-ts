@@ -1,29 +1,16 @@
-interface IArticle {
-  author: string;
-  title: string;
-  createdAt: Date;
-  lastModifiedAt: Date;
-  description?: string;
-  shortDescription?: string;
-  icon?: string;
+interface IGetArticlesAction {
+  type: 'GET_ARTICLES';
+  payload: IFetchedArticles;
 }
 
-interface IFetchedArticles {
-  docs: array | IArticle[];
-  totalDocs: number | null;
-  limit: number | null;
-  totalPages?: number;
-  page?: number;
-  pagingCounter?: number;
-  hesPrevPage?: boolean;
-  hasNextPage?: boolean;
-  prevPage?: number | null;
-  nextPage?: number | null;
+interface ISetFetchingArticles {
+  type: 'FETCHING_ARTICLES';
+  payload: boolean;
 }
 
-type ArticleAction = {
-  type: string;
-  payload: IArticle;
-};
+interface IState {
+  articles: IFetchedArticles | null;
+  fetchingArticles: boolean;
+}
 
-type DispatchType = (args: ArticleAction) => ArticleAction;
+type TAction = IGetArticlesAction | ISetFetchingArticles;
