@@ -2,7 +2,7 @@ type PossibleError = any;
 
 interface Http {
   getCurrent(): Promise<IFetchedCurrentUser, PossibleError>;
-  getArticles(): Promise<IFetchedArticles, PossibleError>;
+  getArticles(page: number | string | null): Promise<IFetchedArticles, PossibleError>;
   getArticle(id: string): Promise<IFetchedArticle, PossibleError>;
   addArticle(body: IArticle): Promise<IFetchedArticle, PossibleError>;
   updateArticle(id: string, body: IUpdateArticleBody): Promise<IFetchedArticle, PossibleError>;

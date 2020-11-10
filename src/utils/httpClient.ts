@@ -49,7 +49,7 @@ const {
 
 export const http: Http = {
   getCurrent: () => httpMiddleware(GET_CURRENT, 'GET'),
-  getArticles: () => httpMiddleware(GET_ARTICLES, 'GET'),
+  getArticles: (page = 1) => httpMiddleware(`${GET_ARTICLES}?page=${page}`, 'GET'),
   getArticle: (id) => httpMiddleware(GET_ARTICLE + id, 'GET'),
   addArticle: (body) => httpMiddleware(ADD_ARTICLE, 'POST', body),
   updateArticle: (id, body) => httpMiddleware(`${UPDATE_ARTICLE}${id}`, 'PUT', body),
