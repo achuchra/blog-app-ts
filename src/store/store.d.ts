@@ -13,10 +13,19 @@ interface IFetchingError {
   payload: boolean;
 }
 
+interface IGetCurrentUser {
+  type: 'GET_CURRENT_USER';
+  payload: IFetchedCurrentUser | Record<string, unknown>;
+}
+
 interface IState {
   articles: IFetchedArticles | null;
   fetchingArticles: boolean;
   fetchingError: boolean;
 }
 
-type TAction = IGetArticlesAction | ISetFetchingArticles | IFetchingError;
+interface IUserState {
+  currentUser: IFetchedCurrentUser | Record<string, unknown>;
+}
+
+type TAction = IGetArticlesAction | ISetFetchingArticles | IFetchingError | IGetCurrentUser;

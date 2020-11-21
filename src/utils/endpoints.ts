@@ -1,5 +1,5 @@
 export enum ENDPOINTS {
-  GET_CURRENT = '/api/user/current',
+  GET_CURRENT = '/api/users/current',
   GET_ARTICLES = '/api/articles',
   GET_ARTICLE = '/api/articles/',
   ADD_ARTICLE = '/api/articles',

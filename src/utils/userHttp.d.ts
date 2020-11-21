@@ -17,9 +17,11 @@ interface IUserRegisterBody {
 }
 
 interface IFetchedCurrentUser {
-  id: string;
-  username: string;
-  iat?: number;
+  currentUser: {
+    id: string;
+    username: string;
+    iat?: number;
+  };
 }
 
 interface IFetchedUser {
