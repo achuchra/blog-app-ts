@@ -18,6 +18,13 @@ interface IGetCurrentUser {
   payload: IFetchedCurrentUser | Record<string, unknown>;
 }
 
+interface IToggleDrawer {
+  type: 'TOGGLE_DRAWER';
+  payload: boolean;
+}
+
+type TAction = IGetArticlesAction | ISetFetchingArticles | IFetchingError | IGetCurrentUser | IToggleDrawer;
+
 interface IState {
   articles: IFetchedArticles | null;
   fetchingArticles: boolean;
@@ -28,4 +35,6 @@ interface IUserState {
   currentUser: IFetchedCurrentUser | Record<string, unknown>;
 }
 
-type TAction = IGetArticlesAction | ISetFetchingArticles | IFetchingError | IGetCurrentUser;
+interface IDrawerState {
+  open: boolean;
+}

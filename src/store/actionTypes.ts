@@ -4,4 +4,7 @@ export const GET_ARTICLES = 'GET_ARTICLES';
 export const ADD_ARTICLE = 'ADD_ARTICLE';
 export const REMOVE_ARTICLE = 'REMOVE_ARTICLE';
 export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
+
 export const GET_CURRENT_USER = 'GET_CURRENT_USER';
+
+export const TOGGLE_DRAWER = 'TOGGLE_DRAWER';
