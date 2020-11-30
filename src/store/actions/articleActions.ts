@@ -17,7 +17,7 @@ export const setFetchingError = (setFetchingError: boolean): IFetchingError => {
   return { type: 'FETCHING_ERROR', payload: setFetchingError };
 };
 
-export const getArticles = (page: number | string | null): TThunkAction => {
+export const getArticles = (page: number | string | null = 1): TThunkAction => {
   return async (dispatch: TThunkDispatch): Promise<void> => {
     dispatch(setFetchingArticles(true));
     http
