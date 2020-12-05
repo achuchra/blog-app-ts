@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../store/actions/userActions';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
+import Article from '../pages/Article';
 
 const Routing: React.FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Routing: React.FC = (): ReactElement => {
       <Route path="/dashboard">{loggedUser ? '<Dashboard />' : <Redirect to="/login" />}</Route>
       <Route path="/settings">{loggedUser ? '<Settings />' : <Redirect to="/login" />}</Route>
       <Route path="/login">{loggedUser ? <Redirect to="/settings" /> : '<Login />'}</Route>
+      <Route path="/articles/:id" component={Article}></Route>
     </Switch>
   );
 };
