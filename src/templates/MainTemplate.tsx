@@ -2,11 +2,12 @@ import React, { ReactElement } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import { makeStyles } from '@material-ui/core/styles';
-import classes from '*.module.sass';
 
 const useStyles = makeStyles(() => ({
-  topSpace: {
-    paddingTop: '56px',
+  container: {
+    paddingTop: '60px',
+    maxWidth: '1000px',
+    margin: '0 auto',
   },
 }));
 
@@ -17,7 +18,7 @@ const MainTemplate: React.FC = ({ children }): ReactElement => {
     <>
       <Header />
       <Sidebar />
-      <div className={classes.topSpace}>{children}</div>
+      <div className={classes.container}>{children}</div>
     </>
   );
 };
