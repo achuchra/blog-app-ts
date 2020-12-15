@@ -5,6 +5,7 @@ import { getCurrentUser } from '../store/actions/userActions';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
 import Article from '../pages/Article';
+import Login from '../pages/Login';
 
 const Routing: React.FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Routing: React.FC = (): ReactElement => {
       <Route exact path="/" component={Home}></Route>
       <Route path="/dashboard">{loggedUser ? '<Dashboard />' : <Redirect to="/login" />}</Route>
       <Route path="/settings">{loggedUser ? '<Settings />' : <Redirect to="/login" />}</Route>
-      <Route path="/login">{loggedUser ? <Redirect to="/settings" /> : '<Login />'}</Route>
+      <Route path="/login">{loggedUser ? <Redirect to="/settings" /> : <Login />}</Route>
       <Route path="/articles/:id" component={Article}></Route>
     </Switch>
   );

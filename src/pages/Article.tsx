@@ -58,7 +58,7 @@ const Article: FC = (): ReactElement => {
         <Typography variant="body2" component={Box} p={1}>
           {description}
         </Typography>
-        <Divider />
+        {description || shortDescription ? <Divider /> : null}
       </>
     );
   }

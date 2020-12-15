@@ -20,14 +20,20 @@ export const setFetchingError = (setFetchingError: boolean): IFetchingError => {
 export const getArticles = (page: number | string | null = 1): TThunkAction => {
   return async (dispatch: TThunkDispatch): Promise<void> => {
     dispatch(setFetchingArticles(true));
-    http
-      .getArticles(page)
-      .then((res: IFetchedArticles): void => {
-        const articles = res;
-        dispatch(getArticlesAsync(articles));
-      })
-      .catch((): void => {
-        dispatch(setFetchingError(true));
-      });
+    try {
+      const res = await http.getArticles(page);
+      dispatch(getArticlesAsync(res));
+    } catch {
+      dispatch(setFetchingError(true));
+    }
+    // http
+    //   .getArticles(page)
+    //   .then((res: IFetchedArticles): void => {
+    //     const articles = res;
+    //     dispatch(getArticlesAsync(articles));
+    //   })
+    //   .catch((): void => {
+    //     dispatch(setFetchingError(true));
+    //   });
   };
 };
