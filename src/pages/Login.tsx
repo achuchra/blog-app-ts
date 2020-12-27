@@ -1,6 +1,7 @@
 import React, { FC, ReactElement, useState, MouseEvent } from 'react';
 import useForm from '../hooks/useForm';
 import { http } from '../transfer/httpClient';
+import { getKeyValue } from '../utils/getKeyValue';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -9,11 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-interface IErrorItem {
-  field: string;
-  message: string;
-}
 
 const useStyles = makeStyles(() => ({
   columnForm: {
@@ -36,18 +32,13 @@ const useStyles = makeStyles(() => ({
 const Login: FC = (): ReactElement => {
   const classes = useStyles();
   const [formLoginType, setFormLoginType] = useState(true);
-  const [errorMessages, setErrorMessages] = useState<any>({});
 
-  const submit = async (): Promise<true> => {
+  const submit = async (): Promise<boolean> => {
     try {
       const res = formLoginType ? await http.userLogin(values) : await http.userRegister(values);
       console.log(res);
       if (res.errors[0]) {
-        const errors: Record<string, unknown> = {};
-        res.errors.map((item: IErrorItem) => {
-          errors[item.field || 'credentials'] = item.message;
-        });
-        setErrorMessages(errors);
+        handleErrors(res.errors);
       }
     } catch (err) {
       console.log(err);
@@ -55,25 +46,25 @@ const Login: FC = (): ReactElement => {
 
     return true;
   };
-  const { handleChange, handleSubmit, values } = useForm(submit);
+
+  const { handleChange, handleSubmit, handleErrors, errors, values } = useForm(submit);
 
   const handleSwitchType = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    setErrorMessages({});
+    handleErrors([]);
     setFormLoginType(!formLoginType);
   };
 
-  console.log(errorMessages);
   const singleInput = (name: string): ReactElement => (
     <TextField
-      error={!!errorMessages[name]}
+      error={errors.hasOwnProperty(name)}
       key={name}
       name={name}
       label={name}
       type={name === 'password' ? 'password' : ''}
       onChange={handleChange}
       className={classes.textField}
-      helperText={errorMessages[name] ? errorMessages[name] : null}
+      helperText={getKeyValue(name)(errors)}
     ></TextField>
   );
 
@@ -86,7 +77,7 @@ const Login: FC = (): ReactElement => {
         {formLoginType
           ? ['username', 'password'].map(singleInput)
           : ['username', 'nick', 'email', 'password'].map(singleInput)}
-        {errorMessages.credentials ? <Alert severity="error">{errorMessages.credentials}</Alert> : null}
+        {errors.hasOwnProperty('invalid') ? <Alert severity="error">{getKeyValue('invalid')(errors)}</Alert> : null}
         <Button
           type="submit"
           variant="contained"
@@ -98,21 +89,12 @@ const Login: FC = (): ReactElement => {
           Submit
         </Button>
       </form>
-      {formLoginType ? (
-        <Typography variant="body1" align="center">
-          Not having an account yet?
-          <a href="#" onClick={handleSwitchType} className={classes.anchorBlock}>
-            Register
-          </a>
-        </Typography>
-      ) : (
-        <Typography variant="body1" align="center">
-          Signed up already?
-          <a href="#" onClick={handleSwitchType} className={classes.anchorBlock}>
-            Login
-          </a>
-        </Typography>
-      )}
+      <Typography variant="body1" align="center">
+        {formLoginType ? 'Not having an account yet?' : 'Signed up already?'}
+        <a href="#" onClick={handleSwitchType} className={classes.anchorBlock}>
+          {formLoginType ? 'Register' : 'Login'}
+        </a>
+      </Typography>
     </>
   );
 };

@@ -1,23 +1,18 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-type Inputs = 'username' | 'nick' | 'email' | 'avatar' | 'password';
-
-type TValues =
-  | {
-      [type in Inputs]: string;
-    }
-  | Record<string, unknown>;
-
-interface IUseForm {
-  handleChange: (event: ChangeEvent) => void;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
-  values: TValues;
-}
-
 const useForm = (callback: () => void): IUseForm => {
   const [values, setValues] = useState<TValues>({});
-  //TODO validation
-  // const [errors, setErrors] = useState<TValues>({});
+  const [errors, setErrors] = useState<TErrors>({});
+
+  const handleErrors = (data: IError[]): void => {
+    const errs = {} as Record<string, string>;
+    if (data[0]) {
+      data.map((item: IError) => {
+        errs[item.field || 'invalid'] = item.message;
+      });
+      setErrors(errs);
+    } else setErrors({});
+  };
 
   const handleChange = (event: ChangeEvent): void => {
     event.preventDefault();
@@ -30,14 +25,14 @@ const useForm = (callback: () => void): IUseForm => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    //TODO validation
-    //handling errors here
     callback();
   };
 
   return {
     handleChange,
     handleSubmit,
+    handleErrors,
+    errors,
     values,
   };
 };
