@@ -16,8 +16,17 @@ const useStyles = makeStyles((theme: Theme) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: '5px 15px',
+
+      '& button span': {
+        display: 'flex',
+        justifyContent: 'flex-start',
+      },
       [theme.breakpoints.up('sm')]: {
         padding: '10px 30px 10px 5px',
+
+        '& button span': {
+          justifyContent: 'center',
+        },
       },
     },
     toRight: {

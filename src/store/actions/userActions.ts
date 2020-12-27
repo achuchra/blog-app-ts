@@ -1,4 +1,4 @@
-import { http } from '../../utils/httpClient';
+import { http } from '../../transfer/httpClient';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 

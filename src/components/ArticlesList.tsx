@@ -63,7 +63,7 @@ const ArticlesList: FC<Props> = (): ReactElement => {
           primary={title}
           secondary={
             <>
-              <Typography component="div" variant="body2">
+              <Typography component="span" style={{ display: 'block' }} variant="body2">
                 {parseDate(createdAt)}
               </Typography>
               {shortDescription}

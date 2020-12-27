@@ -1,6 +1,6 @@
 interface IUserLoginBody {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
 interface IUserUpdateBody {
@@ -10,10 +10,11 @@ interface IUserUpdateBody {
 }
 
 interface IUserRegisterBody {
-  username: string;
-  password: string;
-  email: string;
-  avatar: string;
+  username?: string;
+  nick?: string;
+  password?: string;
+  email?: string;
+  avatar?: string;
 }
 
 interface IFetchedCurrentUser {
@@ -27,6 +28,7 @@ interface IFetchedCurrentUser {
 interface IFetchedUser {
   isAdmin: boolean;
   username: string;
+  nick?: string;
   email?: string;
   avatar?: string;
   id: string;

@@ -5,10 +5,10 @@ export enum ENDPOINTS {
   ADD_ARTICLE = '/api/articles',
   UPDATE_ARTICLE = '/api/articles/',
   DELETE_ARTICLE = '/api/articles/',
-  USER_LOGIN = '/api/user/login',
-  USER_UPDATE = '/api/user/update/',
-  USER_LOGOUT = '/api/user/logout',
-  USER_REGISTER = '/api/user/register',
+  USER_LOGIN = '/api/users/login',
+  USER_UPDATE = '/api/users/update/',
+  USER_LOGOUT = '/api/users/logout',
+  USER_REGISTER = '/api/users/register',
 }
 
 //const with type Values with one of the values from ENDPOINTS properties

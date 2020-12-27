@@ -1,4 +1,4 @@
-import { http } from '../../utils/httpClient';
+import { http } from '../../transfer/httpClient';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 
@@ -21,7 +21,7 @@ export const getArticles = (page: number | string | null = 1): TThunkAction => {
   return async (dispatch: TThunkDispatch): Promise<void> => {
     dispatch(setFetchingArticles(true));
     try {
-      const res = await http.getArticles(page);
+      const res = await (<IFetchedArticles>http.getArticles(page));
       dispatch(getArticlesAsync(res));
     } catch {
       dispatch(setFetchingError(true));

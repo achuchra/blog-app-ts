@@ -13,12 +13,12 @@ const httpRequest = async (
   method: string,
   body?: IPossibleArgs,
   config: DefaultHeaders = headers,
-) => {
+): Promise<any> => {
   const res = await fetch(endpoint, {
     method,
     body: body ? JSON.stringify(body) : null,
     headers: config || headers,
-  });
+  }).catch((err) => err);
   return res;
 };
 

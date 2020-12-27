@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useState, useEffect } from 'react';
-import { http } from '../utils/httpClient';
+import { http } from '../transfer/httpClient';
 import { useLocation } from 'react-router-dom';
 
 import { parseDate } from '../utils/parseDate';
