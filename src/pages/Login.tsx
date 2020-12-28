@@ -2,12 +2,16 @@ import React, { FC, ReactElement, useState, MouseEvent } from 'react';
 import useForm from '../hooks/useForm';
 import { http } from '../transfer/httpClient';
 import { getKeyValue } from '../utils/getKeyValue';
+import { useHistory } from 'react-router-dom';
+import { getCurrentUser } from '../store/actions/userActions';
+import { useDispatch } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input';
 import Typography from '@material-ui/core/Typography';
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -22,7 +26,7 @@ const useStyles = makeStyles(() => ({
     marginBottom: '10px',
   },
   vertMargin: {
-    margin: '20px 0',
+    margin: '25px 0px 0px',
   },
   anchorBlock: {
     display: 'block',
@@ -31,23 +35,30 @@ const useStyles = makeStyles(() => ({
 
 const Login: FC = (): ReactElement => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [formLoginType, setFormLoginType] = useState(true);
+  const [successActionMessage, setSuccessActionMessage] = useState('');
 
   const submit = async (): Promise<boolean> => {
     try {
       const res = formLoginType ? await http.userLogin(values) : await http.userRegister(values);
       console.log(res);
-      if (res.errors[0]) {
+      if (res.errors && res.errors[0]) {
         handleErrors(res.errors);
+      }
+      if (res.id) {
+        handleErrors([]);
+        setSuccessActionMessage(formLoginType ? 'Successfully signed in!' : 'Created an account!');
+        setTimeout(() => dispatch(getCurrentUser()), 500);
       }
     } catch (err) {
       console.log(err);
     }
-
     return true;
   };
 
-  const { handleChange, handleSubmit, handleErrors, errors, values } = useForm(submit);
+  const { handleChange, handleSubmit, handleErrors, fetching, errors, values } = useForm(submit);
 
   const handleSwitchType = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -78,6 +89,7 @@ const Login: FC = (): ReactElement => {
           ? ['username', 'password'].map(singleInput)
           : ['username', 'nick', 'email', 'password'].map(singleInput)}
         {errors.hasOwnProperty('invalid') ? <Alert severity="error">{getKeyValue('invalid')(errors)}</Alert> : null}
+        {successActionMessage ? <Alert severity="success">{successActionMessage}</Alert> : null}
         <Button
           type="submit"
           variant="contained"
@@ -85,16 +97,18 @@ const Login: FC = (): ReactElement => {
           size="large"
           className={classes.vertMargin}
           endIcon={<InputIcon />}
+          disabled={fetching}
         >
           Submit
         </Button>
+        {fetching ? <LinearProgress className={classes.textField} /> : null}
+        <Typography variant="body1" align="center" className={classes.vertMargin}>
+          {formLoginType ? 'Not having an account yet?' : 'Signed up already?'}
+          <a href="#" onClick={handleSwitchType} className={classes.anchorBlock}>
+            {formLoginType ? 'Register' : 'Login'}
+          </a>
+        </Typography>
       </form>
-      <Typography variant="body1" align="center">
-        {formLoginType ? 'Not having an account yet?' : 'Signed up already?'}
-        <a href="#" onClick={handleSwitchType} className={classes.anchorBlock}>
-          {formLoginType ? 'Register' : 'Login'}
-        </a>
-      </Typography>
     </>
   );
 };

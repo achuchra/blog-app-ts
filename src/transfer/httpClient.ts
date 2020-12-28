@@ -18,7 +18,7 @@ const httpRequest = async (
     method,
     body: body ? JSON.stringify(body) : null,
     headers: config || headers,
-  }).catch((err) => err);
+  });
   return res;
 };
 

@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 const useForm = (callback: () => void): IUseForm => {
   const [values, setValues] = useState<TValues>({});
   const [errors, setErrors] = useState<TErrors>({});
+  const [fetching, setFetching] = useState(false);
 
   const handleErrors = (data: IError[]): void => {
     const errs = {} as Record<string, string>;
@@ -23,15 +24,20 @@ const useForm = (callback: () => void): IUseForm => {
     });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<boolean> => {
     event.preventDefault();
-    callback();
+    setFetching(true);
+    await callback();
+    setFetching(false);
+
+    return true;
   };
 
   return {
     handleChange,
     handleSubmit,
     handleErrors,
+    fetching,
     errors,
     values,
   };

@@ -1,16 +1,19 @@
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement, useMemo, MouseEvent } from 'react';
 import { RootState } from '../store/reducers';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 import { MenuList, MenuItem, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { toggleDrawer } from '../store/actions/drawerActions';
+import { http } from '../transfer/httpClient';
+import { getCurrentUser } from '../store/actions/userActions';
 
 import HomeIcon from '@material-ui/icons/Home';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import SettingsIcon from '@material-ui/icons/Settings';
 import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({
   blogIcon: {
@@ -23,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     '& a': {
       padding: '5px 10px 5px 30px',
       display: 'flex',
+      minHeight: '48px',
       '& p': {
         marginLeft: 'auto',
       },
@@ -38,6 +42,12 @@ const Nav: React.FC = (): ReactElement => {
   const { pathname } = useLocation();
   const checkLocation = useMemo(() => (path: string): boolean => pathname === path, [pathname]);
 
+  const handleLogout = async (e: MouseEvent) => {
+    e.preventDefault();
+    await http.userLogout();
+    dispatch(getCurrentUser());
+  };
+
   const paths = {
     home: '/',
     dashboard: '/dashboard',
@@ -49,6 +59,7 @@ const Nav: React.FC = (): ReactElement => {
   return (
     <MenuList onClick={() => dispatch(toggleDrawer(false))} className={classes.list}>
       <BookOutlinedIcon className={classes.blogIcon} />
+      <Divider />
       <MenuItem component={NavLink} to={home} selected={checkLocation(home)}>
         <HomeIcon />
         <Typography variant="body1">Home</Typography>
@@ -68,6 +79,16 @@ const Nav: React.FC = (): ReactElement => {
         </MenuItem>
       ) : null}
       {loggedUser ? <Divider /> : null}
+      {loggedUser ? (
+        <>
+          <Divider style={{ marginTop: '70px' }} />
+          <MenuItem component={NavLink} to="#" onClick={handleLogout}>
+            <ExitToAppIcon />
+            <Typography variant="body1">Logout</Typography>
+          </MenuItem>
+          <Divider />
+        </>
+      ) : null}
       {loggedUser ? null : (
         <MenuItem component={NavLink} to={login} selected={checkLocation(login)}>
           <OpenInBrowserIcon />

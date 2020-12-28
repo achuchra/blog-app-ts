@@ -2,7 +2,7 @@ type Inputs = 'username' | 'nick' | 'email' | 'avatar' | 'password';
 
 type TValues =
   | {
-      [Inputs: string]: string;
+      [key in Inputs]: string;
     }
   | Record<string, unknown>;
 
@@ -23,6 +23,7 @@ interface IUseForm {
   handleChange: (event: ChangeEvent) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleErrors: (data: IError[]) => void;
+  fetching: boolean;
   errors: TErrors | Record<string, unknown>;
   values: TValues;
 }
