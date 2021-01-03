@@ -36,7 +36,6 @@ const useStyles = makeStyles(() => ({
 const Login: FC = (): ReactElement => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
   const [formLoginType, setFormLoginType] = useState(true);
   const [successActionMessage, setSuccessActionMessage] = useState('');
 

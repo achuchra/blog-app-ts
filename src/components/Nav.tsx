@@ -1,4 +1,4 @@
-import React, { ReactElement, useMemo, MouseEvent } from 'react';
+import React, { ReactElement, useMemo, MouseEvent, ReactNode } from 'react';
 import { RootState } from '../store/reducers';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
@@ -34,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Nav: React.FC = (): ReactElement => {
+interface INavProps {
+  bigScreen: boolean;
+  children?: ReactNode;
+}
+
+const Nav: React.FC<INavProps> = (props: INavProps): ReactElement => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.currentUser);
@@ -57,7 +62,7 @@ const Nav: React.FC = (): ReactElement => {
   const { home, dashboard, settings, login } = paths;
 
   return (
-    <MenuList onClick={() => dispatch(toggleDrawer(false))} className={classes.list}>
+    <MenuList onClick={() => (props.bigScreen ? null : dispatch(toggleDrawer(false)))} className={classes.list}>
       <BookOutlinedIcon className={classes.blogIcon} />
       <Divider />
       <MenuItem component={NavLink} to={home} selected={checkLocation(home)}>

@@ -49,7 +49,9 @@ const ArticlesList: FC<Props> = (): ReactElement => {
           pathname: '/',
           search: `?page=${page}`,
         })
-      : null;
+      : history.push({
+          search: '',
+        });
   }, [page]);
 
   const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
