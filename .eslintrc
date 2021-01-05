@@ -23,6 +23,7 @@
   "rules": {
     "react/prop-types": [2, { "ignore": ["children"] }],
     "linebreak-style": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/ban-ts-comment": 0
   }
 }

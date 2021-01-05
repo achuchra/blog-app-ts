@@ -14,6 +14,7 @@ import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import SettingsIcon from '@material-ui/icons/Settings';
 import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 
 const useStyles = makeStyles((theme) => ({
   blogIcon: {
@@ -55,11 +56,12 @@ const Nav: React.FC<INavProps> = (props: INavProps): ReactElement => {
 
   const paths = {
     home: '/',
+    addArticle: '/add-article',
     dashboard: '/dashboard',
     settings: '/settings',
     login: '/login',
   };
-  const { home, dashboard, settings, login } = paths;
+  const { home, addArticle, dashboard, settings, login } = paths;
 
   return (
     <MenuList onClick={() => (props.bigScreen ? null : dispatch(toggleDrawer(false)))} className={classes.list}>
@@ -69,6 +71,13 @@ const Nav: React.FC<INavProps> = (props: INavProps): ReactElement => {
         <HomeIcon />
         <Typography variant="body1">Home</Typography>
       </MenuItem>
+      <Divider />
+      {loggedUser ? (
+        <MenuItem component={NavLink} to={addArticle} selected={checkLocation(addArticle)}>
+          <LibraryAddIcon />
+          <Typography variant="body1">Add Article</Typography>
+        </MenuItem>
+      ) : null}
       <Divider />
       {loggedUser ? (
         <MenuItem component={NavLink} to={dashboard} selected={checkLocation(dashboard)}>

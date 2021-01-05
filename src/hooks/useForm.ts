@@ -24,6 +24,14 @@ const useForm = (callback: () => void): IUseForm => {
     });
   };
 
+  const hardChange = (data: { name: string; value: string }): void => {
+    const { name, value } = data;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<boolean> => {
     event.preventDefault();
     setFetching(true);
@@ -36,6 +44,7 @@ const useForm = (callback: () => void): IUseForm => {
   return {
     handleChange,
     handleSubmit,
+    hardChange,
     handleErrors,
     fetching,
     errors,

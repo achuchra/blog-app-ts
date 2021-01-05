@@ -21,6 +21,7 @@ interface IError {
 
 interface IUseForm {
   handleChange: (event: ChangeEvent) => void;
+  hardChange: (data: { name: string; value: string }) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleErrors: (data: IError[]) => void;
   fetching: boolean;

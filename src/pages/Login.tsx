@@ -2,7 +2,6 @@ import React, { FC, ReactElement, useState, MouseEvent } from 'react';
 import useForm from '../hooks/useForm';
 import { http } from '../transfer/httpClient';
 import { getKeyValue } from '../utils/getKeyValue';
-import { useHistory } from 'react-router-dom';
 import { getCurrentUser } from '../store/actions/userActions';
 import { useDispatch } from 'react-redux';
 
