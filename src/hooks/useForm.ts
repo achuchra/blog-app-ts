@@ -32,6 +32,10 @@ const useForm = (callback: () => void): IUseForm => {
     });
   };
 
+  const resetValues = () => {
+    setValues({});
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<boolean> => {
     event.preventDefault();
     setFetching(true);
@@ -49,6 +53,7 @@ const useForm = (callback: () => void): IUseForm => {
     fetching,
     errors,
     values,
+    resetValues,
   };
 };
 

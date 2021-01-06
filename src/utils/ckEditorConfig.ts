@@ -1,0 +1,21 @@
+export const ckEditorConfig = {
+  toolbar: [
+    'heading',
+    '|',
+    'bold',
+    'italic',
+    'blockQuote',
+    'link',
+    'numberedList',
+    'bulletedList',
+    'insertTable',
+    'tableColumn',
+    'tableRow',
+    'mergeTableCells',
+    'mediaEmbed',
+    '|',
+    'undo',
+    'redo',
+  ],
+  placeholder: 'Content of your article',
+};

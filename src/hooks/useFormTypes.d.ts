@@ -27,4 +27,5 @@ interface IUseForm {
   fetching: boolean;
   errors: TErrors | Record<string, unknown>;
   values: TValues;
+  resetValues: () => void;
 }

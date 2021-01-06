@@ -6,7 +6,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
 import Article from '../pages/Article';
 import Login from '../pages/Login';
-import AddArticle from '../pages/AddArticle';
+import AddArticle from '../pages/addArticle/AddArticle';
 
 const Routing: React.FC = (): ReactElement => {
   const dispatch = useDispatch();

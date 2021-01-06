@@ -49,15 +49,18 @@ const Article: FC = (): ReactElement => {
           {title}
         </Typography>
         <Typography variant="caption" component={Box} pb={1}>{`by ${author}, created: ${parseDate(createdAt)}${
-          createdAt !== lastModifiedAt ? `, edited: ${parseDate(lastModifiedAt)}` : null
+          createdAt !== lastModifiedAt ? `, edited: ${parseDate(lastModifiedAt)}` : ''
         }`}</Typography>
         <Divider />
         <Typography variant="body2" component={Box} p={1}>
           {shortDescription}
         </Typography>
-        <Typography variant="body2" component={Box} p={1}>
-          {description}
-        </Typography>
+        <Typography
+          variant="body2"
+          component={Box}
+          p={1}
+          dangerouslySetInnerHTML={{ __html: description }}
+        ></Typography>
         {description || shortDescription ? <Divider /> : null}
       </>
     );
