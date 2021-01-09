@@ -7,6 +7,12 @@ interface IUserUpdateBody {
   password?: string | null;
   email?: string | null;
   avatar?: string | null;
+  currentUser: {
+    id: string;
+    username: string;
+    nick?: string;
+    iat?: number;
+  };
 }
 
 interface IUserRegisterBody {
@@ -21,6 +27,7 @@ interface IFetchedCurrentUser {
   currentUser: {
     id: string;
     username: string;
+    nick?: string;
     iat?: number;
   };
 }

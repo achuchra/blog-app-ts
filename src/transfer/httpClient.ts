@@ -55,7 +55,7 @@ export const http: Http = {
   updateArticle: (id, body) => httpMiddleware(`${UPDATE_ARTICLE}${id}`, 'PUT', body),
   deleteArticle: (id) => httpMiddleware(`${DELETE_ARTICLE}${id}`, 'DELETE'),
   userLogin: (body) => httpMiddleware(USER_LOGIN, 'POST', body),
-  userUpdate: (id, body) => httpMiddleware(`${USER_UPDATE}${id}`, 'PUT', body),
+  userUpdate: (body) => httpMiddleware(`${USER_UPDATE}`, 'PUT', body),
   userLogout: () => httpMiddleware(USER_LOGOUT, 'GET'),
   userRegister: (body) => httpMiddleware(USER_REGISTER, 'POST', body),
 };

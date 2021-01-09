@@ -19,8 +19,10 @@ interface IError {
   message: string;
 }
 
+function handleChange(event: ChangeEvent): void;
+
 interface IUseForm {
-  handleChange: (event: ChangeEvent) => void;
+  handleChange: typeof handleChange;
   hardChange: (data: { name: string; value: string }) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleErrors: (data: IError[]) => void;

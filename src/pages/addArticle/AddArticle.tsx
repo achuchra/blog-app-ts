@@ -1,14 +1,13 @@
 //@ts-nocheck
 import React, { FC, ReactElement, useState } from 'react';
 import useForm from '../../hooks/useForm';
-import { getKeyValue } from '../../utils/getKeyValue';
 import { http } from '../../transfer/httpClient';
 import { ckEditorConfig } from '../../utils/ckEditorConfig';
+import SingleInput from '../../components/SingleInput';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input';
 import Typography from '@material-ui/core/Typography';
@@ -62,28 +61,15 @@ const AddArticle: FC = (): ReactElement => {
     submit,
   );
 
-  const singleInput = (name: string): ReactElement => {
-    const passwordType = name === 'password' ? 'password' : '';
-    const isMultiline = name === 'shortDescription';
-    const numOfRows = isMultiline ? '3' : undefined;
-
-    return (
-      <TextField
-        hidden={true}
-        error={errors.hasOwnProperty(name)}
-        key={name}
-        name={name}
-        label={name}
-        type={passwordType}
-        multiline={isMultiline}
-        value={getKeyValue(name)(values)}
-        rows={numOfRows}
-        onChange={handleChange}
-        className={classes.textField}
-        helperText={getKeyValue(name)(errors)}
-      ></TextField>
-    );
-  };
+  const oneInput = (name: string): ReactElement => (
+    <SingleInput
+      name={name}
+      values={values}
+      errors={errors}
+      handleChange={handleChange}
+      className={classes.textField}
+    ></SingleInput>
+  );
 
   const handleCKChange = (event, editor) => {
     const data = editor.getData();
@@ -96,7 +82,7 @@ const AddArticle: FC = (): ReactElement => {
         Add new article
       </Typography>
       <form noValidate className={classes.columnForm} onSubmit={handleSubmit}>
-        {['title', 'shortDescription'].map(singleInput)}
+        {['title', 'shortDescription'].map(oneInput)}
         <CKEditor editor={ClassicEditor} onChange={handleCKChange} config={ckEditorConfig} />
         <Button
           type="submit"

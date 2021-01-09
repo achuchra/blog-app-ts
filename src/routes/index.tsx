@@ -7,6 +7,7 @@ import Home from '../pages/Home';
 import Article from '../pages/Article';
 import Login from '../pages/Login';
 import AddArticle from '../pages/addArticle/AddArticle';
+import Settings from '../pages/Settings';
 
 const Routing: React.FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Routing: React.FC = (): ReactElement => {
       <Route exact path="/" component={Home}></Route>
       <Route path="/add-article">{loggedUser ? <AddArticle /> : <Redirect to="/login" />}</Route>
       <Route path="/dashboard">{loggedUser ? '<Dashboard />' : <Redirect to="/login" />}</Route>
-      <Route path="/settings">{loggedUser ? '<Settings />' : <Redirect to="/login" />}</Route>
+      <Route path="/settings">{loggedUser ? <Settings /> : <Redirect to="/login" />}</Route>
       <Route path="/login">{loggedUser ? <Redirect to="/settings" /> : <Login />}</Route>
       <Route path="/articles/:id" component={Article}></Route>
     </Switch>

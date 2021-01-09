@@ -37,6 +37,7 @@ const theme = createMuiTheme({
       hint: 'rgba(0, 0, 0, 0.38)',
     },
   },
+  spacing: 10,
 } as ThemeOptions);
 
 export default theme;

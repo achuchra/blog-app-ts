@@ -6,7 +6,7 @@ export enum ENDPOINTS {
   UPDATE_ARTICLE = '/api/articles/',
   DELETE_ARTICLE = '/api/articles/',
   USER_LOGIN = '/api/users/login',
-  USER_UPDATE = '/api/users/update/',
+  USER_UPDATE = '/api/users/update',
   USER_LOGOUT = '/api/users/signout',
   USER_REGISTER = '/api/users/register',
 }

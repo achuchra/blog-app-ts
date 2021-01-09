@@ -5,7 +5,7 @@ import { getKeyValue } from '../utils/getKeyValue';
 import { getCurrentUser } from '../store/actions/userActions';
 import { useDispatch } from 'react-redux';
 
-import TextField from '@material-ui/core/TextField';
+import SingleInput from '../components/SingleInput';
 import Button from '@material-ui/core/Button';
 import InputIcon from '@material-ui/icons/Input';
 import Typography from '@material-ui/core/Typography';
@@ -58,24 +58,15 @@ const Login: FC = (): ReactElement => {
 
   const { handleChange, handleSubmit, handleErrors, fetching, errors, values } = useForm(submit);
 
+  const oneInput = (name: string): ReactElement => (
+    <SingleInput name={name} values={values} errors={errors} handleChange={handleChange}></SingleInput>
+  );
+
   const handleSwitchType = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     handleErrors([]);
     setFormLoginType(!formLoginType);
   };
-
-  const singleInput = (name: string): ReactElement => (
-    <TextField
-      error={errors.hasOwnProperty(name)}
-      key={name}
-      name={name}
-      label={name}
-      type={name === 'password' ? 'password' : ''}
-      onChange={handleChange}
-      className={classes.textField}
-      helperText={getKeyValue(name)(errors)}
-    ></TextField>
-  );
 
   return (
     <>
@@ -84,8 +75,8 @@ const Login: FC = (): ReactElement => {
       </Typography>
       <form noValidate className={classes.columnForm} onSubmit={handleSubmit}>
         {formLoginType
-          ? ['username', 'password'].map(singleInput)
-          : ['username', 'nick', 'email', 'password'].map(singleInput)}
+          ? ['username', 'password'].map(oneInput)
+          : ['username', 'nick', 'email', 'password'].map(oneInput)}
         {errors.hasOwnProperty('invalid') ? <Alert severity="error">{getKeyValue('invalid')(errors)}</Alert> : null}
         {successActionMessage ? <Alert severity="success">{successActionMessage}</Alert> : null}
         <Button
