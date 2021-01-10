@@ -1,4 +1,4 @@
-type Inputs = 'username' | 'nick' | 'email' | 'avatar' | 'password';
+type Inputs = 'username' | 'nick' | 'email' | 'avatar' | 'password' | 'title' | 'shortDescription' | 'description';
 
 type TValues =
   | {
@@ -23,7 +23,7 @@ function handleChange(event: ChangeEvent): void;
 
 interface IUseForm {
   handleChange: typeof handleChange;
-  hardChange: (data: { name: string; value: string }) => void;
+  hardChange: (data: Array<{ name: Inputs; value: string }>) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   handleErrors: (data: IError[]) => void;
   fetching: boolean;

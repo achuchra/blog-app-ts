@@ -1,4 +1,4 @@
-import React, { ReactElement, FC } from 'react';
+import React, { FC, ReactElement } from 'react';
 import ArticlesList from '../components/ArticlesList';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,17 +9,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Home: FC = (): ReactElement => {
+const Dashboard: FC = (): ReactElement => {
   const classes = useStyles();
 
   return (
     <>
       <Typography variant="h5" align="center" className={classes.vertMargin}>
-        Recent articles
+        Your articles
       </Typography>
-      <ArticlesList />
+      <ArticlesList own />
     </>
   );
 };
 
-export default Home;
+export default Dashboard;

@@ -12,9 +12,13 @@ import { List, ListItem, ListItemText, Grid, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import Pagination from '@material-ui/lab/Pagination';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface Props {
-  own?: string;
+  own?: boolean;
 }
 
 const useStyles = makeStyles(() => ({
@@ -31,9 +35,15 @@ const useStyles = makeStyles(() => ({
     boxShadow: '0px 0px 10px -6px #000',
     backgroundColor: '#f5f5f5',
   },
+  infoZone: {
+    margin: '25px 0px 0px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 }));
 
-const ArticlesList: FC<Props> = (): ReactElement => {
+const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state);
   const query = useLocation();
@@ -43,7 +53,7 @@ const ArticlesList: FC<Props> = (): ReactElement => {
   const classes = useStyles();
 
   useEffect(() => {
-    dispatch(getArticles(page));
+    dispatch(getArticles(page, own));
     +page !== 1
       ? history.push({
           pathname: '/',
@@ -62,7 +72,7 @@ const ArticlesList: FC<Props> = (): ReactElement => {
     return (
       <ListItem key={id} button component={NavLink} to={`articles/${id}`}>
         <ListItemText
-          primary={title}
+          primary={<Typography variant="h6">{title}</Typography>}
           secondary={
             <>
               <Typography component="span" style={{ display: 'block' }} variant="body2">
@@ -72,13 +82,23 @@ const ArticlesList: FC<Props> = (): ReactElement => {
             </>
           }
         ></ListItemText>
+        {own ? (
+          <>
+            <IconButton component={NavLink} to={`articles/${id}?mode=edit`}>
+              <EditIcon />
+            </IconButton>
+            <IconButton component={NavLink} to={`articles/${id}?mode=edit`}>
+              <DeleteIcon />
+            </IconButton>
+          </>
+        ) : null}
       </ListItem>
     );
   };
 
   return (
     <div>
-      {state.articlesData.articles ? (
+      {state.articlesData.articles && state.articlesData.articles.docs[0] ? (
         <>
           <Grid>
             <List>{state.articlesData.articles.docs.map(singleArticle)}</List>
@@ -93,6 +113,17 @@ const ArticlesList: FC<Props> = (): ReactElement => {
             showLastButton
           />
         </>
+      ) : state.articlesData.articles && !state.articlesData.articles.docs[0] ? (
+        <div className={classes.infoZone}>
+          <Typography variant="body1" align="center">
+            No articles yet
+          </Typography>
+          {own ? (
+            <Button component={NavLink} to="/add-article" variant="contained" color="primary">
+              Add your first article
+            </Button>
+          ) : null}
+        </div>
       ) : state.articlesData.fetchingError ? (
         <p>Fetching failed :(</p>
       ) : (

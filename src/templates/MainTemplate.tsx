@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
   container: {
-    paddingTop: '60px',
+    padding: '60px 15px',
     maxWidth: '1000px',
     margin: '0 auto',
   },

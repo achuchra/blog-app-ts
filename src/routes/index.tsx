@@ -6,8 +6,9 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
 import Article from '../pages/Article';
 import Login from '../pages/Login';
-import AddArticle from '../pages/addArticle/AddArticle';
+import AddArticle from '../pages/AddArticle';
 import Settings from '../pages/Settings';
+import Dashboard from '../pages/Dashboard';
 
 const Routing: React.FC = (): ReactElement => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Routing: React.FC = (): ReactElement => {
     <Switch>
       <Route exact path="/" component={Home}></Route>
       <Route path="/add-article">{loggedUser ? <AddArticle /> : <Redirect to="/login" />}</Route>
-      <Route path="/dashboard">{loggedUser ? '<Dashboard />' : <Redirect to="/login" />}</Route>
+      <Route path="/dashboard">{loggedUser ? <Dashboard /> : <Redirect to="/login" />}</Route>
       <Route path="/settings">{loggedUser ? <Settings /> : <Redirect to="/login" />}</Route>
       <Route path="/login">{loggedUser ? <Redirect to="/settings" /> : <Login />}</Route>
       <Route path="/articles/:id" component={Article}></Route>

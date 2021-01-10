@@ -45,8 +45,10 @@ const Header: React.FC = (): ReactElement => {
         <Button color="primary" onClick={() => dispatch(toggleDrawer(true))}>
           <MenuIcon />
         </Button>
-        <BookOutlinedIcon className={classes.toRight} />
-        <Typography variant="h5">Blog app</Typography>
+        <BookOutlinedIcon color="primary" className={classes.toRight} />
+        <Typography color="primary" variant="h5">
+          Blog app
+        </Typography>
       </AppBar>
     </>
   );

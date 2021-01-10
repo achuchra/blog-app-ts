@@ -3,8 +3,9 @@ type PossibleError = any;
 interface Http {
   getCurrent(): Promise<IFetchedCurrentUser, PossibleError>;
   getArticles(page: number | string | null): Promise<IFetchedArticles, PossibleError>;
+  getMyArticles(page: number | string | null): Promise<IFetchedArticles, PossibleError>;
   getArticle(id: string): Promise<IFetchedArticle, PossibleError>;
-  addArticle(body: IArticle): Promise<IFetchedArticle, PossibleError>;
+  addArticle(body: TValues): Promise<IFetchedArticle, PossibleError>;
   updateArticle(id: string, body: IUpdateArticleBody): Promise<IFetchedArticle, PossibleError>;
   deleteArticle(id: string): Promise<IDeletedArticle, PossibleError>;
   userLogin(body: IUserLoginBody): Promise<IFetchedUser, PossibleError>;
@@ -13,7 +14,14 @@ interface Http {
   userRegister(body: IUserRegisterBody): Promise<IFetchedUser, PossibleError>;
 }
 
-type IPossibleArgs = IArticle | IUpdateArticleBody | IUserLoginBody | IUserUpdateBody | IUserRegisterBody | null;
+type IPossibleArgs =
+  | TValues
+  | IArticle
+  | IUpdateArticleBody
+  | IUserLoginBody
+  | IUserUpdateBody
+  | IUserRegisterBody
+  | null;
 
 type IHttpParams = Array<string & string> | Array<string & string & IPossibleArgs>;
 

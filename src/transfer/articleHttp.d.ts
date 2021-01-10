@@ -14,6 +14,7 @@ interface IUpdateArticleBody {
 
 interface IArticle {
   author: string;
+  authorId: string;
   title: string;
   createdAt: Date;
   lastModifiedAt: Date;

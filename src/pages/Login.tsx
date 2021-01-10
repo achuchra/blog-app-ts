@@ -58,8 +58,8 @@ const Login: FC = (): ReactElement => {
 
   const { handleChange, handleSubmit, handleErrors, fetching, errors, values } = useForm(submit);
 
-  const oneInput = (name: string): ReactElement => (
-    <SingleInput name={name} values={values} errors={errors} handleChange={handleChange}></SingleInput>
+  const oneInput = (name: string, index: number): ReactElement => (
+    <SingleInput key={index} name={name} values={values} errors={errors} handleChange={handleChange}></SingleInput>
   );
 
   const handleSwitchType = (event: MouseEvent<HTMLAnchorElement>) => {

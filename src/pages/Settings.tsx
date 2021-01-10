@@ -65,6 +65,7 @@ const useStyles = makeStyles(() => ({
 const Settings: FC = (): ReactElement => {
   const curr = useSelector((state: RootState) => state.currentUser.currentUser) as IFetchedCurrentUser;
   const [formOpen, setFormOpen] = useState(false);
+  const [successActionMessage, setSuccessActionMessage] = useState('');
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -74,15 +75,17 @@ const Settings: FC = (): ReactElement => {
 
   const submit = async (): Promise<boolean> => {
     const valuesToSend = Object.assign({ ...values }, curr);
-    console.log(valuesToSend);
     try {
       const res = await http.userUpdate(valuesToSend);
       console.log(res);
       if (!res.errors) {
+        resetValues();
         handleErrors([]);
+        setSuccessActionMessage('Successfully updated your data!');
         dispatch(getCurrentUser());
       }
       if (res.errors && res.errors[0]) {
+        successActionMessage ? setSuccessActionMessage('') : null;
         handleErrors(res.errors);
       }
     } catch (err) {
@@ -92,13 +95,14 @@ const Settings: FC = (): ReactElement => {
     return true;
   };
 
-  const { handleChange, handleSubmit, handleErrors, fetching, errors, values } = useForm(submit);
+  const { handleChange, handleSubmit, handleErrors, fetching, errors, values, resetValues } = useForm(submit);
 
-  const oneInput = (name: string): ReactElement => {
-    return <SingleInput name={name} values={values} errors={errors} handleChange={handleChange}></SingleInput>;
+  const oneInput = (name: string, idx: number): ReactElement => {
+    return (
+      <SingleInput key={idx} name={name} values={values} errors={errors} handleChange={handleChange}></SingleInput>
+    );
   };
 
-  console.log('errs', errors);
   return (
     <>
       <Box mt={2.5}>
@@ -146,6 +150,7 @@ const Settings: FC = (): ReactElement => {
               {errors.hasOwnProperty('invalid') ? (
                 <Alert severity="error">{getKeyValue('invalid')(errors)}</Alert>
               ) : null}
+              {successActionMessage ? <Alert severity="success">{successActionMessage}</Alert> : null}
               <Button
                 type="submit"
                 variant="contained"

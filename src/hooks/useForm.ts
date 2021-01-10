@@ -24,11 +24,15 @@ const useForm = (callback: () => void): IUseForm => {
     });
   };
 
-  const hardChange = (data: { name: string; value: string }): void => {
-    const { name, value } = data;
+  const hardChange = (data: Array<{ name: Inputs; value: string }>): void => {
+    const valuesToSet = { ...values };
+    data.map((obj) => {
+      const { name, value } = obj;
+      valuesToSet[name] = value;
+    });
+
     setValues({
-      ...values,
-      [name]: value,
+      ...valuesToSet,
     });
   };
 

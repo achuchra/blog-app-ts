@@ -8,12 +8,23 @@ interface IProps {
   handleChange: typeof handleChange;
   errors?: TErrors | Record<string, unknown>;
   className?: string;
+  defaultValue?: string;
 }
 
-const SingleInput: FC<IProps> = ({ name, errors = {}, values, handleChange, className = '' }: IProps): ReactElement => {
+const SingleInput: FC<IProps> = ({
+  name,
+  errors = {},
+  values,
+  handleChange,
+  className = '',
+  defaultValue = '',
+}: IProps): ReactElement => {
   const passwordType = name === 'password' ? 'password' : '';
   const isMultiline = name === 'shortDescription';
   const numOfRows = isMultiline ? '3' : undefined;
+
+  const inputValue = getKeyValue(name)(values) || defaultValue || '';
+
   return (
     <TextField
       error={errors.hasOwnProperty(name)}
@@ -22,7 +33,7 @@ const SingleInput: FC<IProps> = ({ name, errors = {}, values, handleChange, clas
       label={name}
       type={passwordType}
       multiline={isMultiline}
-      value={getKeyValue(name)(values)}
+      value={inputValue}
       rows={numOfRows}
       onChange={handleChange}
       className={className}

@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 import MainTemplate from './templates/MainTemplate';
 import { ThemeProvider } from '@material-ui/core';
 import theme from './themes/mainTheme';
+import './App.scss';
 
 export const history = createBrowserHistory();
 

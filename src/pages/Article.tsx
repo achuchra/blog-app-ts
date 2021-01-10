@@ -1,4 +1,6 @@
 import React, { FC, ReactElement, useState, useEffect } from 'react';
+import { RootState } from '../store/reducers';
+import { useSelector } from 'react-redux';
 import { http } from '../transfer/httpClient';
 import { useLocation } from 'react-router-dom';
 
@@ -6,6 +8,7 @@ import { parseDate } from '../utils/parseDate';
 
 import { Typography, Divider, Box } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
+import ArticleForm from '../components/articleForm/ArticleForm';
 
 interface ArticleData {
   fetchedArticle: IFetchedArticle | boolean;
@@ -13,9 +16,12 @@ interface ArticleData {
 }
 
 const Article: FC = (): ReactElement => {
-  console.log('went into article');
+  const curr = useSelector((state: RootState) => state.currentUser.currentUser) as IFetchedCurrentUser;
+
+  const { pathname, search } = useLocation();
+  const params = new URLSearchParams(search.split('?')[1]);
+  const [editMode, setEditMode] = useState(params.get('mode') === 'edit');
   const [articleData, setArticleData] = useState<ArticleData>({ fetchedArticle: false, fetching: true });
-  const { pathname } = useLocation();
   const id = pathname.split('/')[2];
 
   useEffect(() => {
@@ -39,11 +45,14 @@ const Article: FC = (): ReactElement => {
       shortDescription = '',
       description = '',
       author,
+      authorId,
       createdAt,
       lastModifiedAt,
     } = articleData.fetchedArticle as IFetchedArticle;
 
-    return (
+    return editMode && curr.currentUser && curr.currentUser.id === authorId ? (
+      <ArticleForm own defaultData={articleData.fetchedArticle} />
+    ) : (
       <>
         <Typography pt={2} pb={1} variant="h3" component={Box}>
           {title}

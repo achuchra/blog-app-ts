@@ -94,14 +94,14 @@ const Nav: React.FC<INavProps> = (props: INavProps): ReactElement => {
       ) : null}
       {loggedUser ? <Divider /> : null}
       {loggedUser ? (
-        <>
+        <div>
           <Divider style={{ marginTop: '70px' }} />
           <MenuItem component={NavLink} to="#" onClick={handleLogout}>
             <ExitToAppIcon />
             <Typography variant="body1">Logout</Typography>
           </MenuItem>
           <Divider />
-        </>
+        </div>
       ) : null}
       {loggedUser ? null : (
         <MenuItem component={NavLink} to={login} selected={checkLocation(login)}>

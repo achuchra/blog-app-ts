@@ -18,4 +18,5 @@ export const ckEditorConfig = {
     'redo',
   ],
   placeholder: 'Content of your article',
+  value: 'ffffff',
 };

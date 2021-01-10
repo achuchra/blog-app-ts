@@ -50,6 +50,7 @@ const {
 export const http: Http = {
   getCurrent: () => httpMiddleware(GET_CURRENT, 'GET'),
   getArticles: (page = 1) => httpMiddleware(`${GET_ARTICLES}?page=${page}`, 'GET'),
+  getMyArticles: (page = 1) => httpMiddleware(`${GET_ARTICLES}?page=${page}&author=me`, 'GET'),
   getArticle: (id) => httpMiddleware(GET_ARTICLE + id, 'GET'),
   addArticle: (body) => httpMiddleware(ADD_ARTICLE, 'POST', body),
   updateArticle: (id, body) => httpMiddleware(`${UPDATE_ARTICLE}${id}`, 'PUT', body),
