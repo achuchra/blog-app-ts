@@ -1,10 +1,11 @@
-import React, { useState, useEffect, FC, ReactElement, ChangeEvent } from 'react';
+import React, { useState, useEffect, FC, ReactElement, ChangeEvent, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom';
 import { getArticles } from '../store/actions/articleActions';
 import { RootState } from '../store/reducers';
 import { history } from '../App';
 import { makeStyles } from '@material-ui/core/styles';
+import { http } from '../transfer/httpClient';
 
 import { parseDate } from '../utils/parseDate';
 
@@ -16,6 +17,11 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
 
 interface Props {
   own?: boolean;
@@ -49,10 +55,11 @@ const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
   const query = useLocation();
   const queryParams = new URLSearchParams(query.search);
   const [page, setPage] = useState(queryParams.get('page') || 1);
+  const [dialogInfo, setDialogInfo] = useState({ open: false, id: '' });
 
   const classes = useStyles();
 
-  useEffect(() => {
+  const fetchArticles = () => {
     dispatch(getArticles(page, own));
     +page !== 1
       ? history.push({
@@ -62,13 +69,33 @@ const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
       : history.push({
           search: '',
         });
-  }, [page]);
+  };
+
+  useEffect(fetchArticles, [page]);
 
   const handlePageChange = (e: ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
-  const singleArticle = ({ id, title, createdAt, shortDescription = '' }: IFetchedArticle) => {
+  const handleDeleteDialogOpen = (e: MouseEvent<HTMLButtonElement>, id: string): void => {
+    e.preventDefault();
+    setDialogInfo({ open: true, id });
+  };
+
+  const handleArticleDelete = async (id: string): Promise<boolean> => {
+    try {
+      const res = await http.deleteArticle(id);
+      if (!res.errors) {
+        fetchArticles();
+        setDialogInfo({ open: false, id: '' });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return true;
+  };
+
+  const singleArticle = ({ author, id, title, createdAt, shortDescription = '' }: IFetchedArticle) => {
     return (
       <ListItem key={id} button component={NavLink} to={`articles/${id}`}>
         <ListItemText
@@ -76,7 +103,7 @@ const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
           secondary={
             <>
               <Typography component="span" style={{ display: 'block' }} variant="body2">
-                {parseDate(createdAt)}
+                by {author} | {parseDate(createdAt)}
               </Typography>
               {shortDescription}
             </>
@@ -87,7 +114,7 @@ const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
             <IconButton component={NavLink} to={`articles/${id}?mode=edit`}>
               <EditIcon />
             </IconButton>
-            <IconButton component={NavLink} to={`articles/${id}?mode=edit`}>
+            <IconButton onClick={(e) => handleDeleteDialogOpen(e, id)}>
               <DeleteIcon />
             </IconButton>
           </>
@@ -98,6 +125,39 @@ const ArticlesList: FC<Props> = ({ own = false }: Props): ReactElement => {
 
   return (
     <div>
+      <Dialog
+        open={dialogInfo.open}
+        onBackdropClick={() =>
+          setDialogInfo((state) => {
+            return { ...state, open: false };
+          })
+        }
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogTitle>Deleting article</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            By clicking delete you will completely remove selected article.
+            <br /> Are you sure?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button startIcon={<DeleteIcon />} color="primary" onClick={() => handleArticleDelete(dialogInfo.id)}>
+            Delete
+          </Button>
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() =>
+              setDialogInfo((state) => {
+                return { ...state, open: false };
+              })
+            }
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
       {state.articlesData.articles && state.articlesData.articles.docs[0] ? (
         <>
           <Grid>
